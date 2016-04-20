@@ -1,0 +1,42 @@
+{
+  "builders": [{
+    "type": "virtualbox-ovf",
+    "source_path": "{{user `ovf_path`}}",
+    "output_directory": "output-xubuntu-15.10-desktop-amd64",
+    "vm_name": "packer-xubuntu-15.10-desktop-amd64",
+    "headless": "{{user `headless`}}",
+    "ssh_wait_timeout": "60m",
+    "ssh_username": "vagrant",
+    "ssh_password": "vagrant",
+    "shutdown_command": "sudo systemctl poweroff",
+    "vboxmanage": [
+      ["modifyvm", "{{.Name}}", "--memory", "{{user `memory`}}"],
+      ["modifyvm", "{{.Name}}", "--cpus", "{{user `cpus`}}"]
+    ]
+  }],
+  "provisioners": [{
+    "type": "shell",
+    "scripts": [
+      "scripts/common/grub/disable-predictable-network-names.sh",
+      "scripts/ubuntu/apt.sh",
+      "scripts/xubuntu/packages.sh",
+      "scripts/ubuntu/virtualbox.sh",
+      "scripts/common/vagrant.sh",
+      "scripts/common/sshd.sh",
+      "scripts/ubuntu/cleanup.sh",
+      "scripts/common/minimize.sh"
+    ]
+  }],
+  "post-processors": [{
+    "type": "vagrant",
+    "compression_level": "{{user `compression_level`}}",
+    "output": "xubuntu-15.10-desktop-amd64.box"
+  }],
+  "variables": {
+    "compression_level": "6",
+    "cpus": "1",
+    "headless": "false",
+    "memory": "1024",
+    "ovf_path": "C:\\Users\\brian.stoots\\Documents\\packer-xubuntu-15.10-desktop-amd64.ova"
+  }
+}
