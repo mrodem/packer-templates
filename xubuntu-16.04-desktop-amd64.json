@@ -37,7 +37,8 @@
       "scripts/common/vagrant.sh",
       "scripts/common/sshd.sh",
       "scripts/ubuntu/cleanup.sh",
-      "scripts/common/minimize.sh"
+      "scripts/common/minimize.sh",
+      "scripts/ubuntu/disable-unattended-upgrades.sh"
     ]
   }],
   "post-processors": [{
